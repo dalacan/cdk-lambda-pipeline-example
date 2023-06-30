@@ -31,3 +31,6 @@ class PipelineStack(Stack):
 
         deploy = PipelineStage(self, "DeployTest")
         deploy_stage = pipeline.add_stage(deploy)
+
+        deploy_prod = PipelineStage(self, "DeployProd")
+        deploy_stage_prod = pipeline.add_stage(deploy_prod)
