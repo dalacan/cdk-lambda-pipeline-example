@@ -31,3 +31,11 @@ class PipelineStack(Stack):
 
         deploy = PipelineStage(self, "DeployTest")
         deploy_stage = pipeline.add_stage(deploy)
+
+
+        deploy = PipelineStage(self, "DeployProd")
+        deploy_stage = pipeline.add_stage(deploy,
+                                          pre=[
+                                                pipelines.ManualApprovalStep("PromoteToProd")
+                                            ]
+                                          )
