@@ -7,6 +7,8 @@ from infrastructure.pipeline_stack import PipelineStack
 
 
 app = cdk.App()
-PipelineStack(app, "PipelineStack",)
+PipelineStack(app, "PipelineStack", branch="main")
+
+PipelineStack(app, "PipelineStack", branch="develop")
 
 app.synth()
