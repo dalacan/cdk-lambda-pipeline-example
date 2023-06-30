@@ -5,6 +5,9 @@ from aws_cdk import (
 )
 from constructs import Construct
 
+from infrastructure.pipeline_stage import PipelineStage
+import streamlit as st
+
 class PipelineStack(Stack):
 
     def __init__(self, scope: Construct, construct_id: str, **kwargs) -> None:
@@ -16,7 +19,7 @@ class PipelineStack(Stack):
 
         pipeline = pipelines.CodePipeline(self, "Pipeline",
                                         synth=pipelines.ShellStep("Synth",
-                                                                    input=pipelines.CodePipelineSource.code_commit(repo, "master"),
+                                                                    input=pipelines.CodePipelineSource.code_commit(repo, "main"),
                                                                     commands=[
                                                                         "npm install -g aws-cdk",
                                                                         "pip install -r requirements.txt",
@@ -26,3 +29,6 @@ class PipelineStack(Stack):
                                         ),
                                         docker_enabled_for_synth=True
         )
+
+        deploy = PipelineStack(self, "DeployTest")
+        deploy_stage = pipeline.add_stage(deploy)
