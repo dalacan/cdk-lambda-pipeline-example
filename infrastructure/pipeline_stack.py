@@ -9,7 +9,7 @@ from infrastructure.pipeline_stage import PipelineStage
 class PipelineStack(Stack):
     
 
-    def __init__(self, scope: Construct, construct_id: str, branch, **kwargs) -> None:
+    def __init__(self, scope: Construct, construct_id: str, **kwargs) -> None:
         super().__init__(scope, construct_id, **kwargs)
 
         repo = codecommit.Repository(self, "LambdaDemo",
@@ -18,7 +18,7 @@ class PipelineStack(Stack):
 
         pipeline = pipelines.CodePipeline(self, "Pipeline",
                                         synth=pipelines.ShellStep("Synth",
-                                                                    input=pipelines.CodePipelineSource.code_commit(repo, branch),
+                                                                    input=pipelines.CodePipelineSource.code_commit(repo, "main"),
                                                                     commands=[
                                                                         "npm install -g aws-cdk",
                                                                         "pip install -r requirements.txt",
@@ -28,6 +28,7 @@ class PipelineStack(Stack):
                                         ),
                                         docker_enabled_for_synth=True
         )
+
 
         deploy = PipelineStage(self, "DeployTest")
         deploy_stage = pipeline.add_stage(deploy)
