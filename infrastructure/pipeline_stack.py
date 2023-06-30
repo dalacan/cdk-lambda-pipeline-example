@@ -29,5 +29,5 @@ class PipelineStack(Stack):
                                         docker_enabled_for_synth=True
         )
 
-        deploy = PipelineStack(self, "DeployTest")
+        deploy = PipelineStage(self, "DeployTest")
         deploy_stage = pipeline.add_stage(deploy)
